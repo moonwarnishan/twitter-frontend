@@ -1,0 +1,47 @@
+<div class="row">
+    <div class="col-3">
+        <app-sidebar></app-sidebar>
+    </div>
+    <div class="col-6  ">
+        <div class="bg-dark p-5">
+            <div class="Header text-light text-center">
+                <h3 >Update</h3>
+            </div>
+            <div class="Update_user_form">
+                <form [formGroup]="updateForm" >
+                    <div class="form-group">
+                        <label class="text-light" for=""> User Name</label>
+                        <input type="text" value="{{userName}}"  formControlName="userName" readonly class="form-control item mt-3" id="username" >
+                    </div>
+                    <div class="form-group">
+                        <label class="text-light" for=""> Name</label>
+                        <input type="text" formControlName="name" class="form-control item mt-3" id="name" placeholder="name">
+                        <div class="text text-danger mt-1" *ngIf="updateForm.controls['name'].errors && updateForm.controls['name'].touched">
+                            <div *ngIf="updateForm.controls['name'].errors['required']"> Name is Required</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="text-light" for="">Date Of Birth</label>
+                        <input type="date"  formControlName="dateOfBirth" class="form-control item mt-3" id="birth-date" placeholder="Birth Date">
+                        <div class="text text-danger mt-1" *ngIf="updateForm.controls['dateOfBirth'].errors && updateForm.controls['dateOfBirth'].touched">
+                            <div *ngIf="updateForm.controls['dateOfBirth'].errors['required']"> Date of Birth is Required </div>
+                            <div *ngIf="!updateForm.controls['dateOfBirth'].errors['required']">Age Must be 12+</div>
+                        </div>
+                    </div>
+            
+                    <div class="form-group text-center m-3 mb-3 row">
+                        <div class="col">
+                            <button type="button" (click)="goToHome()" class="btn btn-danger">Cancel</button>
+                        </div>
+                        <div class="col">
+                            <button type="button" (click)="OnSubmit()" class="btn btn-primary">Update</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+       <app-searchbar></app-searchbar>
+    </div>
+</div>

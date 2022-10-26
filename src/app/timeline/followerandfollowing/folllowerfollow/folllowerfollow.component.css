@@ -1,0 +1,9 @@
+.main
+{
+    min-height: 800px;
+    max-height: auto;
+}
+.point
+{
+    cursor: pointer;
+}

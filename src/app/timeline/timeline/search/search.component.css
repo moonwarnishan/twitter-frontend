@@ -1,0 +1,11 @@
+.custom{
+    position: fixed;
+    min-height: 800px;
+    width: 100%;
+}
+.lis
+{
+    width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+}

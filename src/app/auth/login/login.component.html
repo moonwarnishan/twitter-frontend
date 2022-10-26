@@ -1,0 +1,31 @@
+<div class="card heightwidth border m-3 bg-dark text-light">
+    <h1 class="card-header">Login</h1>
+    <div class="card-body">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label>User Name</label>
+                <input type="text" formControlName="userName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['userName'].errors }" />
+                <div *ngIf="submitted && f['userName'].errors" class="invalid-feedback">
+                    <div *ngIf="f['userName'].errors['required']">Username is required</div> 
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label>Password</label>
+                    <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" />
+                    <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+                        <div *ngIf="f['password'].errors['required']">Password is required</div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="row">
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary m-3">Login</button>
+                        <button (click)="cancel()" class="btn btn-danger m-3">cancel</button>
+                    </div>
+                </div> 
+            </div>
+        </form>
+    </div>
+</div>

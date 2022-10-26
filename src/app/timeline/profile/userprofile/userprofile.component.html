@@ -1,0 +1,81 @@
+<div  class="main bg-dark">
+    <div *ngIf="isBlocked===false" class="p-5">
+        <div *ngIf="ownProfile">
+            <button (click)="editProfile()" class="btn text-dark btn-outline-primary btn-light bg-light">Edit Profile</button>
+        </div>
+        <div class="row" *ngIf="!ownProfile">
+            <button (click)="followUnfollow()" type="button" class="col-2 text-dark btn-outline-light btn btn-light m-3 bg-light">{{followOrUnfollow}}</button>
+            <button (click)="block()" type="button" class="col-2 text-white btn-outline-light btn btn-danger m-3 bg-danger">{{blockOrUnblock}}</button>
+        </div>
+        <h1 class="text-white">{{user.name}}</h1>
+        <P class="text-info">@{{user.userName}}</P>
+
+        <p class="text-info">
+            born on-{{user.dateOfBirth}}
+        </p>
+        <p class="text-info">{{user.email}}</p>
+        
+        <div class="row">
+            <a href="#" routerLink="/timeline/followerFollow/{{user.userName}}" class="col-3 text-info">
+                <p>{{following}} following</p>
+            </a>
+            <a href="#" routerLink="/timeline/followerFollow/{{user.userName}}" class="col-3 text-info">
+                <p>{{follower}} follower</p>
+            </a>
+            <div class="col-3"></div>
+            <div class="col-3"></div>
+        </div>
+    </div>
+
+    <h1 class="text-light p-5" *ngIf="isBlocked===true">
+        No User Found
+    </h1>
+    <hr style="width:100%;color: antiquewhite; height: 2px;">
+    <h2 class="m-2 text-light">Tweets</h2>
+    <div *ngFor="let tweet of tweetList" class="tweet-wrap bg-dark text-light border border-light p-1">
+        <div class="row">
+            <div class="col-8"></div>
+            <!-- <div *ngIf="tweet['userName']===userName" class="col-4"><button (click)="deleteTweet(tweet?.tweetId)" class="btn btn-danger btn-sm">delete</button></div> -->
+        </div>
+        <div class="tweet-header ">
+        <div class="tweet-header-info">
+            <div routerLink="/timeline/profile/{{tweet?.userName}}" class="click text-light">
+                {{tweet?.userName}}
+                <span class="text-ligth"> {{tweet?.tweetTime.split('T')[0]}} {{tweet?.tweetTime.split('T')[1].split(':')[0]}}:{{tweet?.tweetTime.split('T')[1].split(':')[1]}}</span>
+            </div> 
+            <p (click)="tweetView(tweet?.tweetId)" routerLinkActive="router-link-active" >&nbsp;&nbsp;{{tweet?.tweetText}}</p>
+        </div>   
+        </div>
+        <div class="tweet-info-counts">
+            <div class="row">
+                <div class="col">
+                    <div class="comments">
+                        <div class="comment-count"><i class="click fa-regular fa-comment">&nbsp;{{tweet['comments'].length}}</i> </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div *ngIf="checkRetweet(tweet['reTweets'])"  class="retweet retweet-count">
+                        <!-- <i id="retweet" (click)="retweetOrDeleteRetweet(tweet?.tweetId)" style="color: blue;"  class="click fa-sharp fa-solid fa-retweet"></i>&nbsp;{{tweet['reTweets'].length}} -->
+                    </div>
+                </div>
+                <div class="col">
+                    <div *ngIf="!checkRetweet(tweet['reTweets'])"  class="retweet retweet-count">
+                        <!-- <i id="retweet" (click)="retweetOrDeleteRetweet(tweet?.tweetId)"  class="click fa-sharp fa-solid fa-retweet"></i>&nbsp;{{tweet['reTweets'].length}} -->
+                    </div>
+                </div>
+            </div>
+        
+        
+        <div  class="likes">
+            <div *ngIf="tweet['likes'].includes(userName);" class="likes-count">
+                <i id="like"  (click)="likeOrDislike(tweet?.tweetId)" style="color: red;" class=" fa-solid fa-heart click"></i>&nbsp;{{tweet['likes'].length}}
+            </div>
+            <div *ngIf="!tweet['likes'].includes(userName);" class="likes-count">
+                <i id="like"  (click)="likeOrDislike(tweet?.tweetId)"  class=" fa-solid fa-heart click"></i>&nbsp;{{tweet['likes'].length}}
+            </div>
+        </div>
+        </div>
+
+        
+    </div>
+</div>

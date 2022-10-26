@@ -1,0 +1,51 @@
+<div class="bg-dark main">
+    <div class="row">
+        <div class="col p-3">
+            <h5 class="text-light p-2">{{userName}} Following UserList</h5>
+            <table class="table table-striped text-center">
+                <thead>
+                <tr>
+                    <th class="text-light" scope="col">UserName</th>
+                    <th class="text-light" scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr  *ngFor="let row of followings index as i">
+                    <td *ngIf="!myblocklist.includes(row)" class="text-light">
+                        <h3 (click)="gotoprofile(row)" class="point text-light">{{ row | titlecase }}</h3>
+                        </td>
+                        <td *ngIf="!IsCurrentUser(row)">
+                        <div class="btn btn-primary m-1" *ngIf="myfollowings.includes(row)" id="follow" (click)="unfollow(row)" >unfollow</div>
+                        <div class="btn btn-primary m-1" *ngIf="!myfollowings.includes(row)" id="follow" (click)="follow(row)" >follow</div>
+                        <div class="btn btn-danger m-1" (click)="block(row)" >block</div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col p-3">
+        <h5 class="text-light p-2">{{userName}} Follower UserList</h5>
+        <table class="table table-striped text-center">
+            <thead>
+                <tr>
+                    <th class="text-light" scope="col">UserName</th>
+                    <th class="text-light" scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr  *ngFor="let row of followers index as i">
+                        <td *ngIf="!myblocklist.includes(row)" class="text-light">
+                            <h3 (click)="gotoprofile(row)" class="point text-light">{{ row | titlecase }}</h3>
+                            </td>
+                            <td *ngIf="!IsCurrentUser(row)">
+                            <div class="btn btn-primary m-1" *ngIf="myfollowings.includes(row)" id="follow" (click)="unfollow(row)" >unfollow</div>
+                            <div class="btn btn-primary m-1" *ngIf="!myfollowings.includes(row)" id="follow" (click)="follow(row)" >follow</div>
+                            <div class="btn btn-danger m-1" (click)="block(row)" >block</div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+
+        </div>
+    </div>
+</div>

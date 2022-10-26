@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="col-3">
+        <app-sidebar></app-sidebar>
+    </div>
+    <div class="col-6 bg-dark main">
+        <div class="p-5 text-light">
+            <h1 class="text-light">Notifications</h1>
+            <ul *ngFor="let notification of notifications$">
+                <div class="border border-rounded p-2">
+                    <li class="m-2">
+                        <a >
+                            <div class="row text-light">
+                                <div class="col-6">
+                                    <h4 class="text-light">{{notification.message}}</h4>
+                                </div>
+                                <div class="col-1"></div>
+                                <div class="col-5">
+                                    <span class="text-muted align-left">{{notification.time}}</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </div>
+            </ul>
+        </div>
+    </div>
+    <div class="col-3">
+        <app-search></app-search>
+    </div>
+</div>

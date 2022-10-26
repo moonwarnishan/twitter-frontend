@@ -1,0 +1,49 @@
+<div class="bg-dark">
+    <div class="row">
+        <div class="col-3">
+            <app-sidebar></app-sidebar>
+        </div>
+        <div class="col-6 p-3">
+            <h1 class="pl-3 text-light">Admin Panel</h1>
+            <table class="table table-striped text-center">
+                <thead>
+                <tr>
+                  <th class="text-light" scope="col">User Name</th>
+                  <th class="text-light" scope="col">Email</th>
+                  <th class="text-light" scope="col">Date Of Birth</th>
+                  <th class="text-light" scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let row of users|paginate: { itemsPerPage: 5, currentPage: p, totalItems: total }; index as i">
+                  <td class="text-light">
+                    {{ row?.userName | titlecase }}
+                  </td>
+                  <td class="text-light">{{ row?.email }}</td>
+                  <td class="text-light">{{row?.dateOfBirth.split(' ')[0] }}</td>
+                  <td>
+                    <div class="btn-group" dropdown>
+                        <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle"> <span class="caret"></span>
+                        </button>
+                        <ul *dropdownMenu class="dropdown-menu" role="menu">
+                          <li role="menuitem"><a id="pointer"  class="dropdown-item" (click)="Update(row?.userName)">update</a></li>
+                          <li role="menuitem"><a id="pointer" *ngIf="row.blockStat===false" class="dropdown-item" (click)="Block(row?.userName)">Block</a></li>
+                          <li role="menuitem"><a id="pointer" *ngIf="row.blockStat===true" class="dropdown-item" (click)="Unblock(row?.userName)">Unblock</a></li>
+                          <div *ngIf="row?.blockStat===false">
+                            <li role="menuitem"><a id="pointer"  *ngIf=" row?.adminStat==='Admin'"  class="dropdown-item" (click)="RemoveAdmin(row?.userName)">Remove Admin</a></li>
+                            <li role="menuitem"><a id="pointer" *ngIf=" row?.adminStat ==='User'"  class="dropdown-item" (click)=" MakeAdmin(row?.userName)">make Admin</a></li>
+                          </div>
+                          <li role="menuitem"><a id="pointer"  class="dropdown-item" routerLink="profile/{{row?.userName}}">details</a></li>
+                        </ul>
+                    </div>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+              <pagination-controls (pageChange)="pageChangeEvent($event)"></pagination-controls>
+        </div>
+        <div class="col-3">
+            <app-searchbar></app-searchbar>
+        </div>
+    </div>
+</div>

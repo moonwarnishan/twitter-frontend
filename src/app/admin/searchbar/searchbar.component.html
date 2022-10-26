@@ -1,0 +1,35 @@
+<div class="bg-dark custom bg-darkcustom p-5">
+  <div class="row">
+    <div class="col-10 col-sm-10">
+      <input #searchbar [(ngModel)]="searchInput" (keyup)="onKeySearch($event)" placeholder="Search Here" class="form-control">
+    </div>
+    <ul *ngIf="userS">
+        <li *ngFor="let d of users" (click)="searchUser(d['userName'])" [hidden]="toggle" >
+          <div class="p-2 m-1 bg-secondary lis border border-light ">
+            <p class="text-light">
+              <span class="text-dark"><b>name:</b></span> {{ d.name }}
+            </p>
+            <p class="text-light">
+              <span class="text-dark"><b>UserName:</b></span> {{ d.userName }}
+            </p>
+          </div>
+        </li>
+    </ul>
+
+    <ul *ngIf="tweetS">
+      <li *ngFor="let d of tweets"  [hidden]="toggle" >
+        <div class="p-2 m-1 bg-secondary lis border border-light ">
+          <p class="text-light">
+            <span class="text-dark"><b>userName:</b></span> {{ d.userName }}
+          </p>
+          <p class="text-light">
+            <span class="text-dark"><b>TweetText:</b></span> {{ d.tweetText }}
+          </p>
+        </div>
+      </li>
+  </ul>
+
+
+
+  </div>
+</div>

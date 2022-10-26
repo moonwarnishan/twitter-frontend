@@ -1,0 +1,44 @@
+<div class="row">
+    <div class="col-3">
+        <app-sidebar></app-sidebar>
+    </div>
+    <div class="col-6">
+        <div  class="main bg-dark">
+            <h1 class=" p-3 text-white"> Admin Panel</h1>
+            <div  class="p-5">
+                <div class="row" *ngIf="!ownProfile">
+                    <div class="col">
+                        <button (click)="editProfile()" class="btn text-dark btn-outline-primary btn-light bg-light">Edit Profile</button>
+                    </div>
+                    <div *ngIf="blockOrUnblock==='block'" class="col">
+                        <button (click)="makeOrRemoveAdmin()" type="button" class="text-dark btn-outline-light btn btn-light  bg-secondary">{{MakeOrRemoveAdmin}}</button>
+                    </div>
+                    <div class="col">
+                        <button (click)="BlockOrUnblock()" type="button" class="text-white btn-outline-light btn btn-danger  bg-danger">{{blockOrUnblock}}</button>
+                    </div>      
+                </div>
+                <h1 class="text-white">{{user?.name}}</h1>
+                <P class="text-info">@{{user?.userName}}</P>
+        
+                <p class="text-info">
+                    born on-{{user?.dateOfBirth}}
+                </p>
+                <p class="text-info">{{user?.email}}</p>
+                
+                <div class="row">
+                    <a href="#" routerLink="/timeline/followerFollow/{{user.userName}}" class="col-3 text-info">
+                        <p>{{following}} following</p>
+                    </a>
+                    <a href="#" routerLink="/timeline/followerFollow/{{user.userName}}" class="col-3 text-info">
+                        <p>{{follower}} follower</p>
+                    </a>
+                    <div class="col-3"></div>
+                    <div class="col-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <app-searchbar></app-searchbar>
+    </div>
+</div>

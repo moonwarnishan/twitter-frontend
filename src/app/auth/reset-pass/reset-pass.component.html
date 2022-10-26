@@ -1,0 +1,49 @@
+<div class="row">
+    <div class="col-3">
+
+    </div>
+    <div class="col-6">
+        <div class="card heightwidth border m-3 bg-dark text-light">
+            <h1 class="card-header">Password Change</h1>
+            <div class="card-body">
+                <form class="p-2" [formGroup]="passresetForm" (ngSubmit)="onSubmit()">
+                    <p class="text-muted">OTP is valid for one hour only</p>
+                    <div class="p-2 form-group">
+                        <label>otp</label>
+                        <input type="number" formControlName="token" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['token'].errors }" />
+                        <div *ngIf="submitted && f['token'].errors" class="invalid-feedback">
+                            <div *ngIf="f['token'].errors['required']">OTP is required </div>
+                        </div>
+                    </div>
+        
+                    <div class="form-row">
+                        <div class="p-2 form-group col">
+                            <label>New Password</label>
+                            <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" />
+                            <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+                                <div *ngIf="f['password'].errors['required']">Password is required</div>
+                                <div *ngIf="f['password'].errors['minlength']">Password must be at least 8 characters and must contain 1 uppercase 1 lower case 1 special char</div>
+                            </div>
+                        </div>
+                        <div class="p-2 form-group col">
+                            <label>Confirm Password</label>
+                            <input type="password" formControlName="confirmPassword" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['confirmPassword'].errors }" />
+                            <div *ngIf="submitted && f['confirmPassword'].errors" class="invalid-feedback">
+                                <div *ngIf="f['confirmPassword'].errors['required']">Confirm Password is required</div>
+                                <div *ngIf="f['confirmPassword'].errors">Passwords must match</div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="p-2 text-center">
+                        <button type="submit" class="btn btn-primary m-3">Submit</button>
+                        <button routerLink="/auth" class="btn btn-danger m-3">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+
+    </div>
+</div>
