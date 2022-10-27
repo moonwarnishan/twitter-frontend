@@ -32,6 +32,14 @@ export class TweetServicesService {
     Object.assign(tweet,{userName:this.thisuser});
     return this.http.post(this.apis.createTweet,tweet,this.httpOptions);
   }
+  delete(tweetId:any) :Observable<object>
+  {
+    return this.http.delete(this.apis.createTweet+'/'+this.thisuser+'/'+tweetId,this.httpOptions);
+  }
+  DeleteTweet() :Observable<object>
+  {
+    return this.http.get(this.apis.deleteTweet+this.thisuser,this.httpOptions);
+  }
 
 
   addComment(tweetId:any,receiverUserName:any,userName:any,content:any) : Observable<object>
@@ -41,7 +49,7 @@ export class TweetServicesService {
   }
   deleteComment(tweetId:any, commentId:any) :Observable<object>
   {
-    return this.http.put(this.apis.deleteComment+tweetId+'/'+commentId+'/'+this.thisuser,this.httpOptions);
+    return this.http.put(this.apis.deleteComment+tweetId+'/'+commentId+'/'+this.thisuser,"",this.httpOptions);
   }
 
   getlikecommentRetweet(tweetId:any) : Observable<object>

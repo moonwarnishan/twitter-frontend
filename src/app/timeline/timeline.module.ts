@@ -18,6 +18,7 @@ import { BlocklistComponent } from './blockeduserlist/blocklist/blocklist.compon
 import { FolllowerfollowComponent } from './followerandfollowing/folllowerfollow/folllowerfollow.component';
 import { UpdateComponent } from './updateuser/update/update.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { TweetComponent } from './tweet/tweet.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { NotificationsComponent } from './notifications/notifications.component'
     BlocklistComponent,
     FolllowerfollowComponent,
     UpdateComponent,
-    NotificationsComponent
+    NotificationsComponent,
+    TweetComponent
   ],
   imports: [
     CommonModule,

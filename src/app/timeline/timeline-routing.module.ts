@@ -7,6 +7,7 @@ import { FollowerandfollowingComponent } from './followerandfollowing/followeran
 import { NotificationsComponent } from './notifications/notifications.component';
 import { ProfileComponent } from './profile/profile.component';
 import { TimelineComponent } from './timeline/timeline.component';
+import { TweetComponent } from './tweet/tweet.component';
 import { UpdateuserComponent } from './updateuser/updateuser.component';
 
 
@@ -39,6 +40,11 @@ const routes: Routes = [
   {
     path:'notifications',
     component:NotificationsComponent,
+    canActivate:[SigninGuard]
+  },
+  {
+    path:'tweet/:username/:tweetid',
+    component:TweetComponent,
     canActivate:[SigninGuard]
   }
 

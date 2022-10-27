@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { interval } from 'rxjs';
+import { LoginService } from 'src/app/Services/login.service';
 import { TimelineService } from 'src/app/Services/timeline.service';
 import { TweetServicesService } from 'src/app/Services/tweet-services.service';
 import Swal from 'sweetalert2';
-import { ITweet } from './ITweet';
+
 
 @Component({
   selector: 'app-main',
@@ -14,11 +15,10 @@ import { ITweet } from './ITweet';
 })
 export class MainComponent implements OnInit {  
   tweetForm:FormGroup;
-  tweetList  : ITweet[]=[];
+  tweetList  : any[]=[];
   tweetList1:any;
   currentUser:any;
   retweetcolor=false;
-  tweetlist2:ITweet[]=[]
   commentform:FormGroup;
   constructor
   (
@@ -44,11 +44,11 @@ export class MainComponent implements OnInit {
   ngOnInit(): void {
     
     this.getTweetInstant();
-    // this.getTweetTimer();
+    this.getTweetTimer();
     this.timeLineService.refreshRequired.subscribe(
       (res)=>
       {
-        this.tweetList=this.retriveData();
+        this.getTweetInstant();
       }
     )
   }
@@ -56,120 +56,38 @@ export class MainComponent implements OnInit {
   
   
 
+  
 
   getTweetInstant()
-  {
-    this.tweetList=this.retriveData();
-  }
-
-  // getTweetTimer()
-  // {
-  //   interval(5000).subscribe(
-  //     (res)=>
-  //     {
-  //       this.tweetServices.tweetSavetoMongo().subscribe();
-  //       this.tweetList=this.retriveData();
-  //     }
-  //   )
-  // }
-  retriveData() : ITweet[]
   {
     this.timeLineService.getTweets().subscribe(
       (res:any)=>
       {
-        this.tweetList1=res;
-            for(let all of this.tweetList1)
-            {
-              all.comments=[];
-              all.likes=[];
-              all.retweets=[];
-              this.tweetServices.getlikecommentRetweet(all.tweetId).subscribe(
-                (res:any)=>
-                {
-                  
-                  if(res.comments!==undefined)
-                  {
-                    all.comments=res.comments;
-                  }
-                  if(res.likes!==undefined)
-                  {
-                    all.likes=res.likes;
-                  }
-                  if(res.retweets!==undefined)
-                  {
-                    all.retweets=res.retweets;
-                  }
-                  
-                }
-              );              
-              this.tweetlist2.push(all);    
-            }
+        this.tweetList=res;
       }
     )
-    return this.tweetlist2;
   }
 
+  getTweetTimer()
+  {
+    interval(5000).subscribe(
+      (res)=>
+      {
+        this.getTweetInstant();
+        this.DeleteTweet();
+        this.consumeTweet();
+      }
+    )
+  }
 
-
-
-
-  // getTweetInstant()
-  // {
-    
-  //   this.timeLineService.getTweets().subscribe(
-  //     (res:any)=>
-  //     {
-  //       this.tweetList1=res;
-  //           for(let all of this.tweetList1)
-  //           {
-  //             all.comments=[];
-  //             all.likes=[];
-  //             all.retweets=[];
-  //             this.tweetServices.getlikecommentRetweet(all.tweetId).subscribe(
-  //               (res:any)=>
-  //               {
-  //                 all.comments=res.comments;
-  //                 all.likes=res.likes;
-  //                 all.retweets=res.retweets;
-                  
-  //               }
-  //             );              
-  //             this.tweetList.push(all);
-  //           }
-  //     }
-  //   )
-  // }
-  // getTweetTimer()
-  // {
-  //   interval(5000).subscribe(
-  //     (res)=>
-  //     {
-  //       this.tweetServices.tweetSavetoMongo().subscribe();
-  //       this.timeLineService.getTweets().subscribe(
-  //         (res:any)=>
-  //         {
-  //           this.tweetList1=res;
-  //           for(let all of this.tweetList1)
-  //           {
-  //             all.comments=[];
-  //             all.likes=[];
-  //             all.retweets=[];
-  //             this.tweetServices.getlikecommentRetweet(all.tweetId).subscribe(
-  //               (res:any)=>
-  //               {
-  //                 all.comments=res.comments;
-  //                 all.likes=res.likes;
-  //                 all.retweets=res.retweets;
-                  
-  //               }
-  //             ); 
-  //             this.tweetList.push(all);             
-  //           }
-  //         }
-  //       )
-  //     }
-  //   )
-  // }
+  consumeTweet()
+  {
+    this.tweetServices.tweetSavetoMongo().subscribe();
+  }
+  DeleteTweet()
+  {
+    this.tweetServices.DeleteTweet().subscribe();
+  }
 
 
 
@@ -211,7 +129,6 @@ export class MainComponent implements OnInit {
             timer: 1500
           })
           this.getTweetInstant();
-          this.reload();
           this.tweetForm.reset();
         },
         err=>
@@ -240,7 +157,7 @@ export class MainComponent implements OnInit {
       {
         this.getTweetInstant();
         this.commentform.reset();
-        this.reload();
+        
       }
     );
   }
@@ -258,7 +175,6 @@ export class MainComponent implements OnInit {
           showConfirmButton: false,
           timer: 1500
         })
-        this.reload();
       },
       err=>
       {
@@ -272,21 +188,21 @@ export class MainComponent implements OnInit {
 
   deleteTweet(tweetId:any)
   {
-    // this.tweetServices.deleteTweet(tweetId).subscribe(
-    //   ()=>
-    //   {
-    //     this.getTweetInstant();
-    //     Swal.fire({
-    //       position: 'top-end',
-    //       icon: 'success',
-    //       title: 'Tweet has been deleted',
-    //       showConfirmButton: false,
-    //       timer: 1500
-    //     })
-    //   },
-    //   err=>
-    //   console.log(err)
-    // );
+    this.tweetServices.delete(tweetId).subscribe(
+      ()=>
+      {
+        this.getTweetInstant();
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Tweet has been deleted',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      },
+      err=>
+      console.log(err)
+    );
   }
 
 
@@ -299,7 +215,7 @@ export class MainComponent implements OnInit {
     this.tweetServices.likeTweet(tweetId,receiverUserName).subscribe(
       (data)=>
       {
-        this.reload();
+        
       },
       err=>
       {
@@ -331,7 +247,7 @@ export class MainComponent implements OnInit {
           showConfirmButton: false,
           timer: 1500
         })
-        this.reload();
+        
       },
       err=>
       {

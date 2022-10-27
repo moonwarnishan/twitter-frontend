@@ -48,7 +48,8 @@ export class ApiServicesService {
 
   tweetServiceBasePath="https://localhost:7020/api/Tweet/";
   createTweet="https://localhost:7020/api/Tweet";
-  deleteTweet=this.tweetServiceBasePath+"DeleteTweet/";
+  deleteTweet="https://localhost:7206/api/Login/DeleteTweet/"
+
   getTweetByTweetId=this.tweetServiceBasePath+'GetTweet/';
 
 
@@ -62,6 +63,9 @@ export class ApiServicesService {
 
 
   timelineBasePath="https://localhost:7020/api/TimelineTweetsControllers/";
+  getalltweet=this.timelineBasePath+"getTweets/";
+  getSpecificUsertweet=this.timelineBasePath+'getSpecificTweet/';
+  getTweetbyUserName=this.timelineBasePath+'getTweetsbyuserName/';
 
   notificationsBasePath ="https://localhost:7020/api/Notifications/";
   

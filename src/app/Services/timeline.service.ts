@@ -26,8 +26,18 @@ export class TimelineService {
   }
   getTweets(): Observable<object>
   {
-    return this.http.get(this.apis.timelineBasePath+this.currentUser,this.httpOptions);
+    return this.http.get(this.apis.getalltweet+this.currentUser,this.httpOptions);
   }
+
+  getSpecificTweet(userName:any,tweetId : any): Observable<object>
+  {
+    return this.http.get(this.apis.getSpecificUsertweet+userName+'/'+tweetId,this.httpOptions);
+  }
+  getTweetByUser(userName:any): Observable<object>
+  {
+    return this.http.get(this.apis.getTweetbyUserName+userName,this.httpOptions);
+  }
+
 
 
 }
