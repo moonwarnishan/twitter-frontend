@@ -78,9 +78,9 @@ export class SearchComponent implements OnInit {
     this.route.navigate(['timeline/profile/'+userName.toString()])
   }
 
-  searchTweet(tweetId:any)
+  searchTweet(userName:any,tweetId:any)
   {
-    this.route.navigate(['timeline/tweet/'+tweetId.toString()])
+    this.route.navigate(['timeline/tweet/'+userName.toString()+'/'+tweetId.toString()])
   }
 
 }

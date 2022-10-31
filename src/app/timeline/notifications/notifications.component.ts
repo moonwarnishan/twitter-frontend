@@ -11,12 +11,14 @@ export class NotificationsComponent implements OnInit {
 
   notifications$ :any;
   thisUser:any;
+  currentUser='';
   constructor(
-    private notificationServices : NotificationsService
+    private notificationServices : NotificationsService,
+    
   ) { }
 
   ngOnInit(): void {
-    
+    this.currentUser=JSON.parse(localStorage.getItem('loginInfo')||'' )['userName'].toString() ;
     this.getInstant();
     this.getAll();
     this.notificationServices.refreshRequired.subscribe(
@@ -45,7 +47,6 @@ export class NotificationsComponent implements OnInit {
           val=>
           {
             this.notifications$=val;
-            
           }
         )
       }

@@ -17,7 +17,7 @@
       </ul>
 
       <ul *ngIf="tweetS">
-        <li *ngFor="let d of tweets" (click)="searchTweet(d['tweetId'])" [hidden]="toggle" >
+        <li *ngFor="let d of tweets" (click)="searchTweet(d['userName'],d['tweetId'])" [hidden]="toggle" >
           <div class="p-2 m-1 bg-secondary lis border border-light ">
             <p class="text-light">
               <span class="text-dark"><b>userName:</b></span> {{ d.userName }}
