@@ -64,6 +64,7 @@ export class ApiServicesService {
 
   timelineBasePath="https://localhost:7020/api/TimelineTweetsControllers/";
   getalltweet=this.timelineBasePath+"getTweets/";
+  getalltweetRedis=this.timelineBasePath+"getTweetsRedis/";
   getSpecificUsertweet=this.timelineBasePath+'getSpecificTweet/';
   getTweetbyUserName=this.timelineBasePath+'getTweetsbyuserName/';
 

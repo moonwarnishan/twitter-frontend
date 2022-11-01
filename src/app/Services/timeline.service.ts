@@ -29,6 +29,11 @@ export class TimelineService {
     return this.http.get(this.apis.getalltweet+this.currentUser,this.httpOptions);
   }
 
+  getTweetsRedis(): Observable<object>
+  {
+    return this.http.get(this.apis.getalltweetRedis+this.currentUser,this.httpOptions);
+  }
+
   getSpecificTweet(userName:any,tweetId : any): Observable<object>
   {
     return this.http.get(this.apis.getSpecificUsertweet+userName+'/'+tweetId,this.httpOptions);

@@ -43,7 +43,7 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
     
-    this.getTweetInstant();
+    //this.getTweetInstantRedis();
     this.getTweetTimer();
     this.timeLineService.refreshRequired.subscribe(
       (res)=>
@@ -54,10 +54,6 @@ export class MainComponent implements OnInit {
   }
 
   
-  
-
-  
-
   getTweetInstant()
   {
     this.timeLineService.getTweets().subscribe(
@@ -67,6 +63,18 @@ export class MainComponent implements OnInit {
       }
     )
   }
+
+  getTweetInstantRedis()
+  {
+    this.timeLineService.getTweetsRedis().subscribe(
+      (res:any)=>
+      {
+        this.tweetList=res;
+      }
+    )
+  }
+
+
 
   getTweetTimer()
   {
@@ -129,6 +137,8 @@ export class MainComponent implements OnInit {
             timer: 1500
           })
           this.getTweetInstant();
+          this.DeleteTweet();
+          this.consumeTweet();
           this.tweetForm.reset();
         },
         err=>
@@ -156,6 +166,8 @@ export class MainComponent implements OnInit {
       ()=>
       {
         this.getTweetInstant();
+          this.DeleteTweet();
+          this.consumeTweet();
         this.commentform.reset();
         
       }
@@ -168,6 +180,8 @@ export class MainComponent implements OnInit {
       (data)=>
       {
         this.getTweetInstant();
+          this.DeleteTweet();
+          this.consumeTweet();
         Swal.fire({
           position: 'top-end',
           icon: 'success',
@@ -192,6 +206,8 @@ export class MainComponent implements OnInit {
       ()=>
       {
         this.getTweetInstant();
+          this.DeleteTweet();
+          this.consumeTweet();
         Swal.fire({
           position: 'top-end',
           icon: 'success',
@@ -215,7 +231,9 @@ export class MainComponent implements OnInit {
     this.tweetServices.likeTweet(tweetId,receiverUserName).subscribe(
       (data)=>
       {
-        
+        this.getTweetInstant();
+          this.DeleteTweet();
+          this.consumeTweet();
       },
       err=>
       {
@@ -240,6 +258,8 @@ export class MainComponent implements OnInit {
       (data)=>
       {
         this.getTweetInstant();
+          this.DeleteTweet();
+          this.consumeTweet();
         Swal.fire({
           position: 'top-end',
           icon: 'success',
