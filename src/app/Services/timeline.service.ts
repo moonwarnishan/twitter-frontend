@@ -24,9 +24,9 @@ export class TimelineService {
   {
     return this._refreshrequired;
   }
-  getTweets(): Observable<object>
+  getTweets(page : any): Observable<object>
   {
-    return this.http.get(this.apis.getalltweet+this.currentUser,this.httpOptions);
+    return this.http.get(this.apis.getalltweet+this.currentUser+'/'+page,this.httpOptions);
   }
 
   getTweetsRedis(): Observable<object>

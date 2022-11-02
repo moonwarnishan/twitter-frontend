@@ -20,6 +20,7 @@ export class MainComponent implements OnInit {
   currentUser:any;
   retweetcolor=false;
   commentform:FormGroup;
+  page = 1;
   constructor
   (
     private formBuilder:FormBuilder,
@@ -56,13 +57,25 @@ export class MainComponent implements OnInit {
   
   getTweetInstant()
   {
-    this.timeLineService.getTweets().subscribe(
+    this.timeLineService.getTweets(this.page).subscribe(
       (res:any)=>
       {
         this.tweetList=res;
       }
     )
   }
+
+  PagechangeTweet()
+  {
+    this.page++;
+    this.timeLineService.getTweets(this.page).subscribe(
+      (res:any)=>
+      {
+        this.tweetList=res;
+      }
+    )
+  }
+
 
   getTweetInstantRedis()
   {
@@ -166,7 +179,7 @@ export class MainComponent implements OnInit {
     this.tweetServices.addComment(tweetId,receiverUserName,this.currentUser,this.commentform.value).subscribe(
       ()=>
       {
-        this.getTweetInstant();
+          this.getTweetInstant();
           this.DeleteTweet();
           this.consumeTweet();
         this.commentform.reset();
@@ -180,7 +193,7 @@ export class MainComponent implements OnInit {
     this.tweetServices.deleteComment(tweetId,commentId).subscribe(
       (data)=>
       {
-        this.getTweetInstant();
+          this.getTweetInstant();
           this.DeleteTweet();
           this.consumeTweet();
         Swal.fire({
@@ -207,7 +220,7 @@ export class MainComponent implements OnInit {
       ()=>
       {
           this.getTweetInstant();
-          this.getTweetInstantRedis();
+          // this.getTweetInstantRedis();
           this.DeleteTweet();
           this.consumeTweet();
         Swal.fire({
@@ -234,7 +247,7 @@ export class MainComponent implements OnInit {
       (data)=>
       {
           this.getTweetInstant();
-          this.getTweetInstantRedis();
+          // this.getTweetInstantRedis();
           this.DeleteTweet();
           this.consumeTweet();
       },
