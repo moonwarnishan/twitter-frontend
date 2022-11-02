@@ -43,7 +43,7 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
     
-    //this.getTweetInstantRedis();
+    this.getTweetInstantRedis();
     this.getTweetTimer();
     this.timeLineService.refreshRequired.subscribe(
       (res)=>
@@ -78,7 +78,7 @@ export class MainComponent implements OnInit {
 
   getTweetTimer()
   {
-    interval(5000).subscribe(
+    interval(15000).subscribe(
       (res)=>
       {
         this.getTweetInstant();
@@ -95,6 +95,7 @@ export class MainComponent implements OnInit {
   DeleteTweet()
   {
     this.tweetServices.DeleteTweet().subscribe();
+    this.getTweetInstantRedis();
   }
 
 
@@ -205,7 +206,8 @@ export class MainComponent implements OnInit {
     this.tweetServices.delete(tweetId).subscribe(
       ()=>
       {
-        this.getTweetInstant();
+          this.getTweetInstant();
+          this.getTweetInstantRedis();
           this.DeleteTweet();
           this.consumeTweet();
         Swal.fire({
@@ -231,7 +233,8 @@ export class MainComponent implements OnInit {
     this.tweetServices.likeTweet(tweetId,receiverUserName).subscribe(
       (data)=>
       {
-        this.getTweetInstant();
+          this.getTweetInstant();
+          this.getTweetInstantRedis();
           this.DeleteTweet();
           this.consumeTweet();
       },
@@ -257,7 +260,7 @@ export class MainComponent implements OnInit {
     this.tweetServices.newRetweet(tweetId,receiverUserName).subscribe(
       (data)=>
       {
-        this.getTweetInstant();
+          this.getTweetInstant();
           this.DeleteTweet();
           this.consumeTweet();
         Swal.fire({
