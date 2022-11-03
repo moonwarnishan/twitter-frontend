@@ -67,10 +67,11 @@ export class MainComponent implements OnInit {
 
   PagechangeTweet()
   {
-    this.page++;
-    this.timeLineService.getTweets(this.page).subscribe(
+    
+    this.timeLineService.getTweets(this.page+1).subscribe(
       (res:any)=>
       {
+        this.page++;
         this.tweetList=res;
       }
     )

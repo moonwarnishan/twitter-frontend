@@ -28,7 +28,8 @@ export class UserprofileComponent implements OnInit ,OnDestroy {
   isAdmin=false;
   tweetList : any;
   retweetcolor=false;
-
+  currentUser='';
+  page=1;
   constructor(
     private activateRoute : ActivatedRoute,
     private userService : UsersService,
@@ -42,9 +43,9 @@ export class UserprofileComponent implements OnInit ,OnDestroy {
     
   ngOnInit(): void {
     
-
+    this.currentUser=JSON.parse(localStorage.getItem('loginInfo')||'' )['userName'].toString();
     this.route.routeReuseStrategy.shouldReuseRoute = () => false;
-    if(this.userName===JSON.parse(localStorage.getItem('loginInfo')||'' )['userName'])
+    if(this.currentUser===JSON.parse(localStorage.getItem('loginInfo')||'' )['userName'])
     {
       this.ownProfile=true;
     }
@@ -61,13 +62,12 @@ export class UserprofileComponent implements OnInit ,OnDestroy {
 
   getTweetInstant()
   {
-    // this.tweetService.getTweetByUserName(this.userName).subscribe(
-    //   (res)=>
-    //   {
-    //     this.tweetList=res;
-        
-    //   }
-    // )
+    this.tweetService.getTweetByUserName(this.userName,this.page).subscribe(
+      (res)=>
+      {
+        this.tweetList=res;
+      }
+    )
   }
 
 
@@ -248,9 +248,59 @@ export class UserprofileComponent implements OnInit ,OnDestroy {
     });
   }
 
-  checkRetweet(retweets:[])
+  likeOrDislike(tweetId:any)
   {
-    if(retweets.some(person => person['userName'] === this.userName)){
+      this.Like(tweetId);
+  }
+  Like(tweetId:any)
+  {
+    this.tweetService.likeTweet(tweetId,this.userName).subscribe(
+      (data)=>
+      {
+        this.getTweetInstant();
+      },
+      err=>
+      {
+        Swal.fire({
+          icon: 'error',
+          text: 'Something went wrong!',
+        })
+      }
+    );
+  }
+
+  retweetOrDeleteRetweet(tweetId:any,userName:any)
+  {
+    this.Retweet(tweetId,userName); 
+  }
+
+  Retweet(tweetId:any,userName:any)
+  {
+    this.tweetService.newRetweet(tweetId,this.userName).subscribe(
+      (data)=>
+      {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Success',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        this.getTweetInstant()
+      },
+      err=>
+      {
+        Swal.fire({
+          icon: 'error',
+          text: 'Something went wrong!',
+        })
+      }
+    );
+  }
+  
+  checkRetweet(retweets:any[])
+  {
+    if(retweets.some(person => person['userName'] === this.currentUser)){
       this.retweetcolor=true;
       return true;
     } 
@@ -260,77 +310,39 @@ export class UserprofileComponent implements OnInit ,OnDestroy {
    }
   }
 
-  likeOrDislike(tweetId:any)
+  tweetView(userName:any,tweetid:any)
   {
-      this.Like(tweetId);
+    this.route.navigate(['/timeline/tweet/'+userName+'/'+tweetid])
   }
-  Like(tweetId:any)
+  deleteTweet(tweetId:any)
   {
-    // this.tweetService.likeTweet(tweetId).subscribe(
-    //   (data)=>
-    //   {
-    //     this.getTweetInstant();
-    //   },
-    //   err=>
-    //   {
-    //     Swal.fire({
-    //       icon: 'error',
-    //       text: 'Something went wrong!',
-    //     })
-    //   }
-    // );
+    this.tweetService.delete(tweetId).subscribe(
+      ()=>
+      {
+          this.getTweetInstant();
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Tweet has been deleted',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      },
+      err=>
+      console.log(err)
+    );
   }
 
-  // retweetOrDeleteRetweet(tweetId:any)
-  // {
-  //   this.Retweet(tweetId);
-  // }
-
-  // Retweet(tweetId:any)
-  // {
-  //   this.tweetService.newRetweet(tweetId).subscribe(
-  //     (data)=>
-  //     {
-  //       this.getTweetInstant();
-  //       Swal.fire({
-  //         position: 'top-end',
-  //         icon: 'success',
-  //         title: 'Success',
-  //         showConfirmButton: false,
-  //         timer: 1500
-  //       })
-        
-  //     },
-  //     err=>
-  //     {
-  //       Swal.fire({
-  //         icon: 'error',
-  //         text: 'Something went wrong!',
-  //       })
-  //     }
-  //   );
-  // }
-  // deleteTweet(tweetId:any)
-  // {
-  //   this.tweetService.deleteTweet(tweetId).subscribe(
-  //     ()=>
-  //     {
-  //       this.getTweetInstant();
-  //       Swal.fire({
-  //         position: 'top-end',
-  //         icon: 'success',
-  //         title: 'Tweet has been deleted',
-  //         showConfirmButton: false,
-  //         timer: 1500
-  //       })
-  //     },
-  //     err=>
-  //     console.log(err)
-  //   );
-  // }
-  tweetView(tweetid:any)
+  loadmore()
   {
-    this.route.navigate(['/timeline/tweet/'+tweetid])
+    this.tweetService.getTweetByUserName(this.userName,this.page+1).subscribe(
+      (data)=>
+      {
+        this.tweetList=data;
+        this.page++;
+      }
+    );
+
   }
   
 }

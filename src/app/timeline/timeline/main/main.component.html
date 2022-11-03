@@ -28,7 +28,7 @@
         <div class="tweet-header-info">
             <div routerLink="/timeline/profile/{{tweet['userName']}}" class="click text-light">
                 {{tweet['userName']}}
-                <span class="text-ligth">&nbsp;&nbsp; {{tweet.tweetTime}}</span>
+                <span class="text-ligth">&nbsp;&nbsp; {{tweet?.tweetTime}}</span>
             </div> 
             <p (click)="tweetView(tweet['tweetId'])" routerLinkActive="router-link-active" >&nbsp;&nbsp;{{tweet['tweetText']}}</p>
         </div>   
@@ -36,11 +36,11 @@
         <div class="tweet-info-counts">
         
         <div class="comments">
-            <div class="comment-count"><i class="click fa-regular fa-comment"></i>&nbsp; {{tweet.comments.length}}</div>
+            <div class="comment-count"><i class="click fa-regular fa-comment"></i>&nbsp; {{tweet?.comments?.length}}</div>
         </div>
         
         <div class="retweets">
-            <div *ngIf="checkRetweet(tweet.retweets)"  class="retweet retweet-count">
+            <div *ngIf="checkRetweet(tweet?.retweets)"  class="retweet retweet-count">
                 <i id="retweet"  (click)="retweetOrDeleteRetweet(tweet?.tweetId,tweet?.userName)" style="color: blue;"  class="click fa-sharp fa-solid fa-retweet"></i>&nbsp;{{tweet.retweets.length}}
             </div>
             <div *ngIf="!checkRetweet(tweet.retweets)" class="retweet retweet-count">
@@ -101,8 +101,14 @@
     <div class="row p-5">
         <div class="col">
         </div>
-        <div class="col">
+        <div *ngIf="tweetList.length>=5*page " class="col">
             <h4 (click)="PagechangeTweet()" class="click text-light">Load More</h4>
+        </div>
+        <div *ngIf="tweetList.length<1" class="col">
+            <h4  class="click text-light">No Tweet Found</h4>
+        </div>
+        <div *ngIf="tweetList.length<5*page && tweetList.length>=(page-1)*5 && tweetList.length>0" class="col">
+            <h4  class="click text-light">No more tweet found</h4>
         </div>
         <div class="col">
         </div>

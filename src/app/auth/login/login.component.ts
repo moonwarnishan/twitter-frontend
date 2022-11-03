@@ -48,7 +48,17 @@ export class LoginComponent implements OnInit {
       }
       ,(err)=>{
         this.error=err;
-        if(this.error.status===500)
+        var err = this.error.error.split(':')[1];
+        var er = err.split('\r')[0];
+        if(er===' User is blocked')
+        {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'User is blocked. please contact admin',
+          })
+        }
+        else if(this.error.status===500)
         {
           Swal.fire({
             icon: 'error',

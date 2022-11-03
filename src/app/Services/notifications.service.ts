@@ -26,10 +26,10 @@ export class NotificationsService {
     return this._refreshrequired;
   }
 
-  getAllNotifications():Observable<object>
+  getAllNotifications(page:any):Observable<object>
   {
     const userName= JSON.parse(localStorage.getItem('loginInfo')||'' )['userName'];
-    return this.http.get(this.apis.notificationsBasePath+userName , this.httpOptions);
+    return this.http.get(this.apis.notificationsBasePath+userName+'/'+ page, this.httpOptions);
   }
 
 }

@@ -66,6 +66,11 @@ export class TweetServicesService {
   {
     return this.http.put(this.apis.CreateOrDeleteRetweet+tweetId+'/'+receiverUserName+'/'+this.thisuser,{userName:this.thisuser},this.httpOptions);
   }
+
+  getTweetByUserName(userName:any,page:any) : Observable<object>
+  {
+    return this.http.get(this.apis.getTweetbyUserName+userName+'/'+page,this.httpOptions);
+  }
  
  
 

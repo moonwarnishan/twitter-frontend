@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable,interval } from 'rxjs';
 import { NotificationsService } from 'src/app/Services/notifications.service';
 
@@ -12,7 +13,9 @@ export class NotificationsComponent implements OnInit {
   notifications$ :any;
   thisUser:any;
   currentUser='';
+  page = 1;
   constructor(
+    private route : Router,
     private notificationServices : NotificationsService,
     
   ) { }
@@ -30,9 +33,20 @@ export class NotificationsComponent implements OnInit {
   }
  getInstant()
  {
-  this.notificationServices.getAllNotifications().subscribe(
+  this.notificationServices.getAllNotifications(this.page).subscribe(
     val=>
     {
+      this.notifications$=val;
+      //alert(JSON.stringify(this.notifications$));
+    }
+  )
+ }
+ loadmore()
+ { 
+  this.notificationServices.getAllNotifications(this.page+1).subscribe(
+    val=>
+    {
+      this.page++;
       this.notifications$=val;
     }
   )
@@ -43,7 +57,7 @@ export class NotificationsComponent implements OnInit {
     interval(5000).subscribe(
       (x)=>
       {
-        this.notificationServices.getAllNotifications().subscribe(
+        this.notificationServices.getAllNotifications(this.page).subscribe(
           val=>
           {
             this.notifications$=val;
@@ -52,5 +66,12 @@ export class NotificationsComponent implements OnInit {
       }
     )
   };
+
+  gotoTweet(notification:any)
+  {
+    this.route.navigate(['/timeline/tweet/'+notification.receiverUserName+'/'+notification.tweetId]);
+  }
+
+
 
 }

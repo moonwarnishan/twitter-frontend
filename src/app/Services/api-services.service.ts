@@ -67,6 +67,7 @@ export class ApiServicesService {
   getalltweetRedis=this.timelineBasePath+"getTweetsRedis/";
   getSpecificUsertweet=this.timelineBasePath+'getSpecificTweet/';
   getTweetbyUserName=this.timelineBasePath+'getTweetsbyuserName/';
+  
 
   notificationsBasePath ="https://localhost:7020/api/Notifications/";
   

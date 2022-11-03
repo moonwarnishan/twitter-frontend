@@ -8,20 +8,33 @@
             <ul *ngFor="let notification of notifications$">
                 <div class="border border-rounded p-2">
                     <li  class="m-2">
-                        <a >
-                            <div class="row text-light">
-                                <div class="col-6">
-                                    <h4 class="text-light">{{notification.message}}</h4>
+                        <a>
+                            <div class="row text-light point">
+                                <div (click)="gotoTweet(notification)" class="col-6">
+                                    <h4 class="text-light">{{notification?.message}}</h4>
                                 </div>
                                 <div class="col-1"></div>
                                 <div class="col-5">
-                                    <span class="text-muted align-left">{{notification.time}}</span>
+                                    <span class="text-muted align-left">{{notification?.time}}</span>
                                 </div>
                             </div>
                         </a>
                     </li>
                 </div>
             </ul>
+        </div>
+        <div class="row">
+            <div class="col"></div>
+            <div *ngIf="notifications$?.length<1"  class="col">
+                <h3  class="text-light point"> No Notification found</h3>
+            </div>
+            <div *ngIf="notifications$?.length>=10*page" class="col">
+                <h3 (click)="loadmore()" class="text-light point"> Load More</h3>
+            </div>
+            <div *ngIf="notifications$?.length<10*page && notifications$?.length>=(page-1)*10 && notifications$?.length>0" class="col">
+                <h3  class="text-light point"> No More Notifications Found</h3>
+            </div>
+            <div class="col"></div>
         </div>
     </div>
     <div class="col-3">
