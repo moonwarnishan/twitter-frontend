@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/Services/login.service';
+import { SignalRService } from 'src/app/Services/signal-r.service';
 import { UsersService } from 'src/app/Services/users.service';
 
 @Component({
@@ -14,7 +15,8 @@ export class SidebarComponent implements OnInit {
   username=" ";
   constructor(
     private loginservice : LoginService,
-    private route : Router
+    private route : Router,
+    private signalR : SignalRService
     ) { }
 
   ngOnInit(): void {
