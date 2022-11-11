@@ -27,6 +27,7 @@ export class ApiServicesService {
 
   LoginServiceBasepath = "https://localhost:7206/api/Login/";
   login = this.LoginServiceBasepath + "Login";
+  logout = this.LoginServiceBasepath + "logout";
 
   SearchBasePath="https://localhost:7252/api/Search/"
   UserSearchBasePath =this.SearchBasePath+"getUserResult/";

@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
       }
       ,(err)=>{
         this.error=err;
-        var err = this.error.error.split(':')[1];
+        var err = this.error?.error?.split(':')[1];
         var er = err.split('\r')[0];
         if(er===' User is blocked')
         {

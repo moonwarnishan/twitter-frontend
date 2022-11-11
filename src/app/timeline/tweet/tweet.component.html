@@ -1,0 +1,92 @@
+<div  class="row">
+    <div class="col-3">
+        <app-sidebar></app-sidebar>
+    </div>
+    <div  *ngIf="isBlocked" class="col-5  p-5 bg-dark">
+        <h1 class="text-light"> You dont have access this page</h1>
+    </div>
+    <div  *ngIf="!isBlocked" class="col-5  p-5 bg-dark">
+        <div  class="row">
+            <div class="col-8"></div>
+            <div *ngIf="tweet?.userName===currentUser" class="col-4"><button (click)="deleteTweet(tweet?.tweetId)" class="btn btn-danger btn-sm">delete</button></div>
+        </div>
+        <div class="tweet-header ">
+        <div class="tweet-header-info">
+            <div routerLink="/timeline/profile/{{tweet?.userName}}" class="click text-light">
+                {{tweet?.userName}}
+                <span class="text-ligth">&nbsp;&nbsp; {{tweet?.tweetTime}}</span>
+            </div> 
+            <p class="text-light">&nbsp;&nbsp;{{tweet?.tweetText}}</p>
+        </div>   
+        </div>
+        <div class="tweet-info-counts">
+        
+        <div class="comments">
+            <div class="text-light comment-count"><i class="click fa-regular fa-comment"></i>&nbsp; {{tweet?.comments?.length}}</div>
+        </div>
+        
+        <div class="retweets text-light">
+            <div *ngIf="checkRetweet(tweet?.retweets)"  class="retweet retweet-count">
+                <i id="retweet"  (click)="retweetOrDeleteRetweet(tweet?.tweetId,tweet?.userName)" style="color: blue;"  class="click fa-sharp fa-solid fa-retweet"></i>&nbsp;{{tweet?.retweets?.length}}
+            </div>
+            <div *ngIf="!checkRetweet(tweet?.retweets)" class="retweet retweet-count">
+                <i id="retweet"  (click)="retweetOrDeleteRetweet(tweet?.tweetId,tweet?.userName)"  class="click fa-sharp fa-solid fa-retweet"></i>&nbsp;{{tweet?.retweets?.length}}
+            </div>
+        </div>  
+        
+        <div  class="likes text-light">
+            <div *ngIf="tweet?.likes?.includes(currentUser)" class="likes-count">
+                <i id="like"  (click)="likeOrDislike(tweet?.tweetId,tweet?.userName)" style="color: red;" class=" fa-solid fa-heart click"></i>&nbsp;{{tweet?.likes?.length}}
+            </div>
+            <div *ngIf="!tweet?.likes?.includes(currentUser)" class="likes-count">
+                <i id="like"   (click)="likeOrDislike(tweet?.tweetId,tweet?.userName)"  class=" fa-solid fa-heart click"></i>&nbsp;{{tweet?.likes?.length}}
+            </div>
+        </div>
+        </div>
+        
+        <div class="comment">
+            <div class="text-muted mt-3">
+                comments
+            </div>
+            <div *ngFor="let comment of tweet?.comments">
+                <ul class="border border-secondary rounded">
+                    <li>
+                        <div class="row">
+                            <div class="col-6">
+                                <p routerLink="/timeline/profile/{{comment?.userName}}" class="text-info click"><b>{{comment['userName']}} </b></p>
+                            </div>
+                            <div *ngIf="comment['userName']===currentUser" class="col-6">
+                                <button (click)="deleteComment(tweet?.tweetId,comment?.commentId)" class="btn btn-danger btn-sm m-1">delete</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <p class="text-light">{{comment['commentText']}}</p>
+                            </div>
+                            <div class="col">
+                                <p class="text-muted text-right"> {{comment?.commentTime}} </p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="comment-form">
+                <form [formGroup]="commentform" (ngSubmit)="onSubmit(tweet?.tweetId,tweet?.userName)">
+                    <div class="row">
+                        <div class="col-8">
+                            <input type="text" class="form-control input-sm" formControlName="commentText" placeholder="comment" placeholder="Add a comment" required>
+                        </div>
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-secondary btn-sm">comment</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-3">
+        <app-search></app-search>
+    </div>
+</div>
+

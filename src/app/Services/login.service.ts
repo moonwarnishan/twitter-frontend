@@ -14,6 +14,7 @@ export class LoginService {
     private route : Router
     ) { }
     httpOptions = { headers: new HttpHeaders({ 'Content-Type':'application/json','Access-Control-Allow-Origins':'*'})}
+   
     //login
     loginUser(loginInfo: any) {
       return this.http.post(this.apipath.login, loginInfo, this.httpOptions);
@@ -27,6 +28,7 @@ export class LoginService {
     logout() {
       localStorage.removeItem('loginInfo');
       this.route.navigate(['auth/login']);
+      return this.http.get(this.apipath.logout, this.httpOptions);
     }
 
 

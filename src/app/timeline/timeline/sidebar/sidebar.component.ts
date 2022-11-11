@@ -1,3 +1,4 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/Services/login.service';
@@ -25,6 +26,10 @@ export class SidebarComponent implements OnInit {
     {
       this.isAdmin=true;
     }
+    
+  }
+  httpOptions = { headers:
+    new HttpHeaders({ 'Content-Type':'application/json','Access-Control-Allow-Origins':'*','Authorization':'Bearer '+JSON.parse(localStorage.getItem('loginInfo')||'' )['accessToken']})
   }
 
   logout()

@@ -17,7 +17,7 @@ export class UserprofileComponent implements OnInit ,OnDestroy {
   userName: any;
   user:any;
   noUserFound:any=false;
-  ownProfile:any;
+  ownProfile=false;
   followOrUnfollow:string="follow";
   blockOrUnblock:string="block";
   follower:string="0";
@@ -45,7 +45,8 @@ export class UserprofileComponent implements OnInit ,OnDestroy {
     
     this.currentUser=JSON.parse(localStorage.getItem('loginInfo')||'' )['userName'].toString();
     this.route.routeReuseStrategy.shouldReuseRoute = () => false;
-    if(this.currentUser===JSON.parse(localStorage.getItem('loginInfo')||'' )['userName'])
+    debugger
+    if(this.currentUser===this.userName)
     {
       this.ownProfile=true;
     }
